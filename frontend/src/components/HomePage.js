@@ -22,6 +22,12 @@ class HomePage extends Component {
             .then((data) => { this.setState({ roomCode: data.code }) });
     }
 
+    clearRoomCode = () => {
+        this.setState({
+            roomCode: null,
+        })
+    }
+
     renderHomePage = () => {
         return (
             <Grid container spacing={3} align="center">
@@ -49,12 +55,22 @@ class HomePage extends Component {
             <div>
                 <Router>
                     <Switch>
-                        <Route exact path='/' render={() => {
-                            return this.state.roomCode ? (<Redirect to={`/room/${this.state.roomCode}`} />) : this.renderHomePage()
+                        <Route 
+                            exact path='/' 
+                            render={() => {
+                                return this.state.roomCode ? (
+                                    <Redirect to={`/room/${this.state.roomCode}`} />
+                                ) : 
+                                    this.renderHomePage()
                         }} />
                         <Route path='/join' component={RoomJoinPage} />
                         <Route path='/create' component={CreateRoomPage} />
-                        <Route path="/room/:roomCode" component={Room} />
+                        <Route 
+                            path="/room/:roomCode" 
+                            render={(props) => {
+                                return <Room {...props} leaveRoomCallback={this.clearRoomCode} />
+                            }} 
+                        />
                     </Switch>
                 </Router>
             </div>
