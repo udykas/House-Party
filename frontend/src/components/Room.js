@@ -73,7 +73,7 @@ class Room extends Component {
                 </Grid>
                 <Grid item xs={12}>
                     <Button variant="contained" color="secondary" onClick={this.updateShowSettings}>
-                        Close
+                        Cancel
                     </Button>
                 </Grid>
             </Grid>
