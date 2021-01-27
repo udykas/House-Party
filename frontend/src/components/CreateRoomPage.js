@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Button, Grid, Typography, TextField, FormHelperText, FormControl, FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
+import { Collapse } from '@material-ui/core';
 
 class CreateRoomPage extends Component {
     static defaultProps = {
@@ -62,15 +63,15 @@ class CreateRoomPage extends Component {
             .then((res) => {
                 if (res.ok) {
                     this.setState({
-                        successMsg: "Room has been updated successfully!"
+                        successMsg: "Room Updated Successfully!"
                     })
                 } else {
                     this.setState({
-                        errorMsg: "Error updating room!"
+                        errorMsg: "Error Updating Room!"
                     })
                 }
-            })
-            
+                this.props.updateCallback();
+            });
     }
 
     renderCreateButtons = () => {
@@ -115,6 +116,13 @@ class CreateRoomPage extends Component {
             <div>
                 <Grid container spacing={1}>
                     <Grid item xs={12} align="center">
+                        <Collapse 
+                            in={this.state.errorMsg != "" || this.state.successMsg != ""} 
+                        >
+                            {this.state.successMsg}
+                        </Collapse>
+                    </Grid>
+                    <Grid item xs={12} align="center">
                         <Typography component='h4' variant='h4'>
                             {title}
                         </Typography>
@@ -128,7 +136,7 @@ class CreateRoomPage extends Component {
                             </FormHelperText>
                             <RadioGroup 
                                 row 
-                                defaultValue='true' 
+                                defaultValue={this.props.guestCanPause.toString()} 
                                 onChange={this.handleGuestPauseChange}
                             >
                                 <FormControlLabel 

@@ -17,7 +17,7 @@ class Room extends Component {
         this.getRoomDetails();
     }
     
-    getRoomDetails() {
+    getRoomDetails = () => {
         fetch('/api/get-room' + '?code=' + this.roomCode)
             .then((response) => {
                 if(!response.ok){
@@ -68,7 +68,7 @@ class Room extends Component {
                         votesToSkip={this.state.votesToSkip}  
                         guestCanPause={this.state.guestCanPause}
                         roomCode={this.roomCode}
-                        updateCallback={() => {}}
+                        updateCallback={this.getRoomDetails}
                     />
                 </Grid>
                 <Grid item xs={12}>
