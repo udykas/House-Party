@@ -18,12 +18,12 @@ REDIRECT_URI = os.getenv("REDIRECT_URI")
 
 class AuthURL(APIView):
     def get(self, request, format=None):
-        scopes = 'user-read-playback-state user-modify-playback state user-read-currently-playing'
+        scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing'
         # full list of spotify scopes: https://developer.spotify.com/documentation/general/guides/scopes/
 
         url = Request('GET', 'https://accounts.spotify.com/authorize', params={
             'scope': scopes,
-            'respose_type': 'code',
+            'response_type': 'code',
             'redirect_uri': REDIRECT_URI,
             'client_id': CLIENT_ID
         }).prepare().url
