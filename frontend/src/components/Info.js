@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid, Button, Typography, IconButton } from '@material-ui/core';
-import { NavigateBeforeIcon, NavigateNextIcon } from '@material-ui/icons';
+import { NavigateBefore, NavigateNext } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
 const pages = {
-  JOIN: 'pages.join',
-  CREATE: 'pages.create',
-}
+  JOIN: "pages.join",
+  CREATE: "pages.create",
+};
 
 function Info(props) {
   const [page, setPage] = useState(pages.JOIN);
@@ -30,6 +30,19 @@ function Info(props) {
         <Typography variant="body1">
           { page === pages.JOIN ? joinInfo() : createInfo() }
         </Typography>
+      </Grid>
+      <Grid item xs={12}>
+      <IconButton
+          onClick={() => {
+            page === pages.CREATE ? setPage(pages.JOIN) : setPage(pages.CREATE);
+          }}
+        >
+          {page === pages.CREATE ? (
+            <NavigateBefore />
+          ) : (
+            <NavigateNext />
+          )}
+        </IconButton>
       </Grid>
       <Grid item xs={12}>
         <Button color="secondary" variant="contained" to='/' component={Link}>
