@@ -25,12 +25,14 @@ class Room extends Component {
                     this.props.leaveRoomCallback();
                     this.props.history.push('/');
                 }
+                console.log('Response:', response);
                 return response.json()
             })
             .then((data) => {
                 if(!data) {
                     return null
                 }
+                console.log('data:', data);
                 this.setState({
                     votesToSkip: data.votes_to_skip,
                     guestCanPause: data.guest_can_pause,
