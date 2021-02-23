@@ -13,9 +13,19 @@ class Room extends Component {
              isHost: false,
              showSettings: false,
              spotifyAuthenticated: false,
+             song: {}
         }
         this.roomCode = this.props.match.params.roomCode;
         this.getRoomDetails();
+    }
+
+    componentDidMount() {
+        // This calls the endpoint every second to continually update our song information. This is not optimal, but since Spotify does not currently support web sockets for free and I don't expect many users, this is what I'm going with. If there were a lot more potential users, this would be a terrible solution
+        this.interval = setInterval(this.getCurrentSong, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
     
     getRoomDetails = () => {
@@ -25,14 +35,12 @@ class Room extends Component {
                     this.props.leaveRoomCallback();
                     this.props.history.push('/');
                 }
-                console.log('Response:', response);
                 return response.json()
             })
             .then((data) => {
                 if(!data) {
                     return null
                 }
-                console.log('data:', data);
                 this.setState({
                     votesToSkip: data.votes_to_skip,
                     guestCanPause: data.guest_can_pause,
@@ -59,6 +67,21 @@ class Room extends Component {
                         })
                 }
             })
+    }
+
+    getCurrentSong = () => {
+        fetch('/spotify/current-song')
+            .then((res) => {
+                if (!res.ok) {
+                    return {};
+                } else {
+                    return res.json();
+                }
+            })
+            .then((data) => {
+                this.setState({ song: data })
+                console.log(data);
+            });
     }
 
     leaveRoom = () => {
@@ -122,21 +145,7 @@ class Room extends Component {
                         Code: {this.roomCode}
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">
-                        Votes: {this.state.votesToSkip}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">
-                        Guests Can Pause: {this.state.guestCanPause.toString()}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">
-                        Host: {this.state.isHost.toString()}
-                    </Typography>
-                </Grid>
+                {/* {this.state.song} */}
                 {this.state.isHost ? this.renderSettingsButton() : null}
                 <Grid item xs={12}>
                     <Button variant="contained" color="secondary" onClick={this.leaveRoom}>
