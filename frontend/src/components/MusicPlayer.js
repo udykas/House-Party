@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Typography, Card, Iconbutton, LinearProgress } from '@material-ui/core';
-import { PlayArrowIcon, SkipNextIcon, PauseIcon, SkipNext } from '@material-ui/icons';
+import { Grid, Typography, Card, IconButton, LinearProgress } from '@material-ui/core';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import PauseIcon from '@material-ui/icons/Pause';
 
 class MusicPlayer extends Component {
   constructor(props) {

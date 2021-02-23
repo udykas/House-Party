@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Button, Typography } from '@material-ui/core';
 
 import CreateRoomPage from './CreateRoomPage';
+import MusicPlayer from './MusicPlayer';
 
 class Room extends Component {
     constructor(props) {
@@ -145,7 +146,7 @@ class Room extends Component {
                         Code: {this.roomCode}
                     </Typography>
                 </Grid>
-                {/* {this.state.song} */}
+                <MusicPlayer {...this.state.song} />
                 {this.state.isHost ? this.renderSettingsButton() : null}
                 <Grid item xs={12}>
                     <Button variant="contained" color="secondary" onClick={this.leaveRoom}>
