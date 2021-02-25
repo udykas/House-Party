@@ -8,7 +8,16 @@ class MusicPlayer extends Component {
   constructor(props) {
     super(props);
   }
-
+  
+  // TODO: Add error handling for skip, pause and play song functions
+  skipSong = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch('/spotify/skip', requestOptions);
+  }
+  
   pauseSong = () => {
     const requestOptions = {
       method: 'PUT',
@@ -46,7 +55,7 @@ class MusicPlayer extends Component {
                 { this.props.is_playing ? <PauseIcon onClick={this.pauseSong} /> : <PlayArrowIcon onClick={this.playSong} /> }
               </IconButton>
               <IconButton>
-                <SkipNextIcon />
+                <SkipNextIcon onClick={this.skipSong} />
               </IconButton>
             </div>
           </Grid>
